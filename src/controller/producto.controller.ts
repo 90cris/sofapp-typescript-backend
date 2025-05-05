@@ -124,6 +124,11 @@ export const HandleGetProductsByBody = async (req: Request, res: Response) => {
 export const HandleGetLatest5Products = async (req: Request, res: Response) => {
   try {
     const productos = await getLatest5Products();
+
+    if (productos.length === 0) {
+      return res.status(200).json({ msg: "No hay productos recientes.", productos: [] });
+    }
+
     res.status(200).json(productos);
   } catch (error) {
     res.status(500).json({ msg: "Error al obtener los productos", error: (error as Error).message });
