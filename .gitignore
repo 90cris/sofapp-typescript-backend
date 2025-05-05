@@ -36,6 +36,5 @@ jspm_packages/
 *.sw?
 
 # Build directories
-dist/
 build/
 .vercel
