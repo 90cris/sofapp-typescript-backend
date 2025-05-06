@@ -25,8 +25,8 @@ export const HandleGetProducts = async (req, res) => {
         res.status(200).json(productos);
     }
     catch (error) {
-        console.error("ERROR EN getAllProducts:", error instanceof Error ? error.message : error);
-        throw error;
+        console.error("❌ ERROR EN getAllProducts:", error);
+        res.status(500).json({ error: "Error al obtener los productos." });
     }
 };
 export const HandleNewProduct = async (req, res) => {

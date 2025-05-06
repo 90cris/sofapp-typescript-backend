@@ -1,7 +1,13 @@
 import { db } from "../config/db";
 export const getAllProducts = async () => {
-    const result = await db.query("SELECT * FROM productos;");
-    return result.rows;
+    try {
+        const { rows } = await db.query("SELECT * FROM productos;");
+        return rows;
+    }
+    catch (error) {
+        console.error("❌ ERROR EN getAllProducts:", error);
+        throw error;
+    }
 };
 export const insertProduct = async (producto) => {
     const { id_usuario, nombre, marca, tipo, cuerpo, alto, ancho, precio, foto, detalle, stock, color, } = producto;

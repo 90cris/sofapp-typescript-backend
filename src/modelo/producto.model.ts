@@ -3,8 +3,13 @@ import format from "pg-format";
 import { Product } from "../interfaces/product.interface";
 
 export const getAllProducts = async () => {
-  const result = await db.query("SELECT * FROM productos;");
-  return result.rows;
+  try {
+    const { rows } = await db.query("SELECT * FROM productos;");
+    return rows;
+  } catch (error) {
+    console.error("❌ ERROR EN getAllProducts:", error);
+    throw error;
+  }
 };
 
 export const insertProduct = async (producto: Product) => {
