@@ -87,30 +87,27 @@ export const register = async (nombre: string, apellido: string, email: string, 
   }
 };
 
-export const getUserDataByProduct = async (idProducto: number) => {
-  try {
-    const query = `
-      SELECT 
-        u.nombre, 
-        u.apellido, 
-        u.email, 
-        u.fono
-      FROM usuario u
-      JOIN productos p 
-        ON u.id_usuario = p.id_usuario
--     WHERE p.id = $1;
-+     WHERE p.id_producto = $1;
-    `;
 
+export const getUserDataByProduct = async (idProducto: number) => {
+  const query = `
+    SELECT u.nombre, u.apellido, u.email, u.fono
+    FROM usuario u
+    JOIN productos p
+      ON u.id_usuario = p.id_usuario
+    WHERE p.id_producto = $1;
+  `;
+  console.log("▶️ Ejecutando consulta getUserDataByProduct:", query.trim(), "con id=", idProducto);
+  try {
     const { rows } = await db.query(query, [idProducto]);
     if (rows.length === 0) {
       throw new Error("No se encontró el usuario asociado a este producto.");
     }
     return rows[0];
-  } catch (error) {
-    console.error("Error en getUserDataByProduct:", error);
-    throw error;
+  } catch (err: any) {
+    console.error("Error en getUserDataByProduct:", err.message || err);
+    throw err;
   }
 };
+
 
 
