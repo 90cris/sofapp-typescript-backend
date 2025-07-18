@@ -88,15 +88,21 @@ export const register = async (nombre: string, apellido: string, email: string, 
 };
 
 
+
 export const getUserDataByProduct = async (idProducto: number) => {
   const query = `
     SELECT u.nombre, u.apellido, u.email, u.fono
-    FROM usuario u
-    JOIN productos p
-      ON u.id_usuario = p.id_usuario
-    WHERE p.id_producto = $1;
+      FROM usuario u
+      JOIN productos p 
+        ON u.id_usuario = p.id_usuario
+     WHERE p.id_producto = $1;
   `;
-  console.log("▶️ Ejecutando consulta getUserDataByProduct:", query.trim(), "con id=", idProducto);
+  console.log(
+    "▶️ [DEBUG] getUserDataByProduct va a ejecutar:",
+    query.trim().replace(/\s+/g, " "),
+    "con idProducto =", idProducto
+  );
+
   try {
     const { rows } = await db.query(query, [idProducto]);
     if (rows.length === 0) {
@@ -104,7 +110,7 @@ export const getUserDataByProduct = async (idProducto: number) => {
     }
     return rows[0];
   } catch (err: any) {
-    console.error("Error en getUserDataByProduct:", err.message || err);
+    console.error("❌ [DEBUG] Error en getUserDataByProduct:", err.message);
     throw err;
   }
 };
